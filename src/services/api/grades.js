@@ -194,7 +194,6 @@ export const deleteGrade = async (id) => {
       
       return true;
     }
-  } catch (error) {
 } catch (error) {
     console.error("Error deleting grade:", error?.response?.data?.message || error);
     throw error;
