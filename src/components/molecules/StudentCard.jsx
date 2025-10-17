@@ -6,8 +6,8 @@ import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
 
 const StudentCard = ({ student, onViewDetails }) => {
-  const getStatusVariant = (status) => {
-    switch (status.toLowerCase()) {
+const getStatusVariant = (status) => {
+    switch (status?.toLowerCase()) {
       case "active": return "success";
       case "inactive": return "error";
       case "at risk": return "warning";
@@ -55,7 +55,7 @@ const StudentCard = ({ student, onViewDetails }) => {
       
       <div className="flex items-center justify-between pt-4 border-t border-gray-100">
         <div className="text-sm text-gray-600">
-          <span className="font-medium">Parent:</span> {student.parentContact.name}
+<span className="font-medium">Parent:</span> {student.parentContact?.name || 'N/A'}
         </div>
         <Button
           onClick={() => onViewDetails(student)}
