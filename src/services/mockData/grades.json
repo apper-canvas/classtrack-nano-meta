@@ -1,0 +1,162 @@
+[
+  {
+    "Id": 1,
+    "studentId": 1,
+    "subject": "Mathematics",
+    "assignment": "Algebra Quiz #1",
+    "score": 85,
+    "maxScore": 100,
+    "date": "2024-01-15",
+    "category": "Quiz"
+  },
+  {
+    "Id": 2,
+    "studentId": 1,
+    "subject": "Mathematics",
+    "assignment": "Geometry Test",
+    "score": 92,
+    "maxScore": 100,
+    "date": "2024-01-22",
+    "category": "Test"
+  },
+  {
+    "Id": 3,
+    "studentId": 2,
+    "subject": "Science",
+    "assignment": "Chemistry Lab Report",
+    "score": 88,
+    "maxScore": 100,
+    "date": "2024-01-18",
+    "category": "Lab"
+  },
+  {
+    "Id": 4,
+    "studentId": 2,
+    "subject": "Science",
+    "assignment": "Physics Quiz",
+    "score": 76,
+    "maxScore": 100,
+    "date": "2024-01-25",
+    "category": "Quiz"
+  },
+  {
+    "Id": 5,
+    "studentId": 3,
+    "subject": "English",
+    "assignment": "Essay: Shakespeare Analysis",
+    "score": 78,
+    "maxScore": 100,
+    "date": "2024-01-20",
+    "category": "Essay"
+  },
+  {
+    "Id": 6,
+    "studentId": 3,
+    "subject": "English",
+    "assignment": "Vocabulary Test",
+    "score": 65,
+    "maxScore": 100,
+    "date": "2024-01-28",
+    "category": "Test"
+  },
+  {
+    "Id": 7,
+    "studentId": 4,
+    "subject": "History",
+    "assignment": "World War II Project",
+    "score": 94,
+    "maxScore": 100,
+    "date": "2024-01-16",
+    "category": "Project"
+  },
+  {
+    "Id": 8,
+    "studentId": 4,
+    "subject": "History",
+    "assignment": "Civil Rights Quiz",
+    "score": 89,
+    "maxScore": 100,
+    "date": "2024-01-24",
+    "category": "Quiz"
+  },
+  {
+    "Id": 9,
+    "studentId": 5,
+    "subject": "Art",
+    "assignment": "Portfolio Review",
+    "score": 91,
+    "maxScore": 100,
+    "date": "2024-01-19",
+    "category": "Portfolio"
+  },
+  {
+    "Id": 10,
+    "studentId": 5,
+    "subject": "Art",
+    "assignment": "Sculpture Project",
+    "score": 87,
+    "maxScore": 100,
+    "date": "2024-01-26",
+    "category": "Project"
+  },
+  {
+    "Id": 11,
+    "studentId": 6,
+    "subject": "Mathematics",
+    "assignment": "Trigonometry Test",
+    "score": 58,
+    "maxScore": 100,
+    "date": "2024-01-17",
+    "category": "Test"
+  },
+  {
+    "Id": 12,
+    "studentId": 6,
+    "subject": "Mathematics",
+    "assignment": "Calculus Quiz",
+    "score": 62,
+    "maxScore": 100,
+    "date": "2024-01-29",
+    "category": "Quiz"
+  },
+  {
+    "Id": 13,
+    "studentId": 7,
+    "subject": "Science",
+    "assignment": "Biology Exam",
+    "score": 83,
+    "maxScore": 100,
+    "date": "2024-01-21",
+    "category": "Exam"
+  },
+  {
+    "Id": 14,
+    "studentId": 7,
+    "subject": "Science",
+    "assignment": "Lab Practical",
+    "score": 90,
+    "maxScore": 100,
+    "date": "2024-01-27",
+    "category": "Practical"
+  },
+  {
+    "Id": 15,
+    "studentId": 8,
+    "subject": "English",
+    "assignment": "Research Paper",
+    "score": 86,
+    "maxScore": 100,
+    "date": "2024-01-23",
+    "category": "Paper"
+  },
+  {
+    "Id": 16,
+    "studentId": 9,
+    "subject": "History",
+    "assignment": "Timeline Project",
+    "score": 79,
+    "maxScore": 100,
+    "date": "2024-01-30",
+    "category": "Project"
+  }
+]
