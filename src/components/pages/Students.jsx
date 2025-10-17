@@ -73,40 +73,40 @@ const handleViewDetails = (student) => {
     setSearchQuery("");
   };
 
-  const filteredStudents = students.filter(student => {
+const filteredStudents = students.filter(student => {
     // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
-      if (!fullName.includes(query) && !student.email.toLowerCase().includes(query)) {
+      const fullName = `${student.first_name_c} ${student.last_name_c}`.toLowerCase();
+      if (!fullName.includes(query) && !student.email_c?.toLowerCase().includes(query)) {
         return false;
       }
     }
 
     // Grade level filter
-    if (filters.gradeLevel && student.gradeLevel.toString() !== filters.gradeLevel) {
+    if (filters.gradeLevel && student.grade_level_c?.toString() !== filters.gradeLevel) {
       return false;
     }
 
     // Class filter
-    if (filters.class && student.class !== filters.class) {
+    if (filters.class && student.class_c !== filters.class) {
       return false;
     }
 
     // Status filter
-    if (filters.status && student.status !== filters.status) {
+    if (filters.status && student.status_c !== filters.status) {
       return false;
     }
 
     return true;
   });
 
-  const getStudentGrades = (studentId) => {
-    return allGrades.filter(grade => grade.studentId === studentId);
+const getStudentGrades = (studentId) => {
+    return allGrades.filter(grade => grade.student_id_c?.Id === studentId || grade.student_id_c === studentId);
   };
 
-  const getStudentAttendance = (studentId) => {
-    return allAttendance.filter(record => record.studentId === studentId);
+const getStudentAttendance = (studentId) => {
+    return allAttendance.filter(record => record.student_id_c?.Id === studentId || record.student_id_c === studentId);
   };
 
   if (loading) {

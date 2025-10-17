@@ -79,17 +79,19 @@ const Classes = () => {
     }
   };
 
-  const getClassStudents = (classData) => {
+const getClassStudents = (classData) => {
     return students.filter(student => 
-      classData.studentIds.includes(student.Id)
+      classData.studentIds?.includes(student.Id)
     );
   };
 
-  const filteredClasses = classes.filter(classData => {
+const filteredClasses = classes.filter(classData => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      if (!classData.name.toLowerCase().includes(query) && 
-          !classData.subject.toLowerCase().includes(query)) {
+      const name = classData.name_c || classData.name || '';
+      const subject = classData.subject_c || classData.subject || '';
+      if (!name.toLowerCase().includes(query) && 
+          !subject.toLowerCase().includes(query)) {
         return false;
       }
     }
@@ -152,7 +154,7 @@ const Classes = () => {
       {/* Classes Grid */}
       {filteredClasses.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredClasses.map((classData) => {
+{filteredClasses.map((classData) => {
             const classStudents = getClassStudents(classData);
             
             return (
@@ -164,15 +166,15 @@ const Classes = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 text-lg">
-                        {classData.name}
+                        {classData.name_c || classData.name}
                       </h3>
                       <p className="text-gray-600 text-sm">
-                        {classData.subject}
+                        {classData.subject_c || classData.subject}
                       </p>
                     </div>
                   </div>
                   <Badge variant="info">
-                    Grade {classData.gradeLevel}
+                    Grade {classData.grade_level_c || classData.gradeLevel}
                   </Badge>
                 </div>
                 
@@ -185,7 +187,7 @@ const Classes = () => {
                     </div>
                     <div className="flex items-center text-gray-600">
                       <ApperIcon name="BookOpen" className="h-4 w-4 mr-2" />
-                      {classData.subject}
+                      {classData.subject_c || classData.subject}
                     </div>
                   </div>
 
@@ -200,8 +202,8 @@ const Classes = () => {
                           {classStudents.slice(0, 5).map((student) => (
                             <Avatar
                               key={student.Id}
-                              src={student.photo}
-                              alt={`${student.firstName} ${student.lastName}`}
+                              src={student.photo_c}
+                              alt={`${student.first_name_c} ${student.last_name_c}`}
                               size="sm"
                               className="border-2 border-white"
                             />

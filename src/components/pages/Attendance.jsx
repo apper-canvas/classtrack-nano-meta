@@ -79,27 +79,29 @@ const [attendance, setAttendance] = useState([]);
     }
   };
 
-  const getStudentName = (studentId) => {
-    const student = students.find(s => s.Id === studentId);
+const getStudentName = (studentId) => {
+    const lookupId = studentId?.Id || studentId;
+    const student = students.find(s => s.Id === lookupId);
     return student ? `${student.firstName} ${student.lastName}` : "Unknown Student";
   };
-
-  const getStudent = (studentId) => {
+const getStudent = (studentId) => {
+    const lookupId = studentId?.Id || studentId;
     return students.find(s => s.Id === studentId);
   };
-
-  const getAttendanceForDate = (date) => {
+const getAttendanceForDate = (date) => {
     return attendance.filter(record => 
-      new Date(record.date).toDateString() === new Date(date).toDateString()
+      new Date(record.date_c).toDateString() === new Date(date).toDateString()
     );
   };
-
-  const getStudentAttendanceStats = (studentId) => {
-    const studentRecords = attendance.filter(record => record.studentId === studentId);
+const getStudentAttendanceStats = (studentId) => {
+    const studentRecords = attendance.filter(record => {
+      const lookupId = record.student_id_c?.Id || record.student_id_c;
+      return lookupId === studentId;
+    });
     const total = studentRecords.length;
-    const present = studentRecords.filter(record => record.status === "Present").length;
-    const late = studentRecords.filter(record => record.status === "Late").length;
-    const absent = studentRecords.filter(record => record.status === "Absent").length;
+    const present = studentRecords.filter(record => record.status_c === "Present").length;
+    const late = studentRecords.filter(record => record.status_c === "Late").length;
+    const absent = studentRecords.filter(record => record.status_c === "Absent").length;
     
     return {
       total,
@@ -110,9 +112,10 @@ const [attendance, setAttendance] = useState([]);
     };
   };
 
-  const todayAttendance = getAttendanceForDate(selectedDate);
+const todayAttendance = getAttendanceForDate(selectedDate);
   const attendanceByStudent = todayAttendance.reduce((acc, record) => {
-    acc[record.studentId] = record;
+    const lookupId = record.student_id_c?.Id || record.student_id_c;
+    acc[lookupId] = record;
     return acc;
   }, {});
 
@@ -193,7 +196,7 @@ const [attendance, setAttendance] = useState([]);
           <div className="flex items-center justify-between">
             <div>
               <p className="text-2xl font-bold text-success">
-                {todayAttendance.filter(r => r.status === "Present").length}
+{todayAttendance.filter(r => r.status_c === "Present").length}
               </p>
               <p className="text-sm text-gray-600">Present</p>
             </div>
@@ -205,7 +208,7 @@ const [attendance, setAttendance] = useState([]);
           <div className="flex items-center justify-between">
             <div>
               <p className="text-2xl font-bold text-warning">
-                {todayAttendance.filter(r => r.status === "Late").length}
+                {todayAttendance.filter(r => r.status_c === "Late").length}
               </p>
               <p className="text-sm text-gray-600">Late</p>
             </div>
@@ -217,7 +220,7 @@ const [attendance, setAttendance] = useState([]);
           <div className="flex items-center justify-between">
             <div>
               <p className="text-2xl font-bold text-error">
-                {todayAttendance.filter(r => r.status === "Absent").length}
+                {todayAttendance.filter(r => r.status_c === "Absent").length}
               </p>
               <p className="text-sm text-gray-600">Absent</p>
             </div>
@@ -230,7 +233,7 @@ const [attendance, setAttendance] = useState([]);
             <div>
               <p className="text-2xl font-bold text-primary">
                 {todayAttendance.length > 0 
-                  ? Math.round((todayAttendance.filter(r => r.status === "Present").length / todayAttendance.length) * 100)
+                  ? Math.round((todayAttendance.filter(r => r.status_c === "Present").length / todayAttendance.length) * 100)
                   : 0}%
               </p>
               <p className="text-sm text-gray-600">Attendance Rate</p>
@@ -264,7 +267,7 @@ const [attendance, setAttendance] = useState([]);
                   </thead>
                   <tbody>
                     {students.map((student) => {
-                      const todayRecord = attendanceByStudent[student.Id];
+const todayRecord = attendanceByStudent[student.Id];
                       const stats = getStudentAttendanceStats(student.Id);
                       
                       return (
@@ -272,24 +275,24 @@ const [attendance, setAttendance] = useState([]);
                           <td className="p-4">
                             <div className="flex items-center space-x-3">
                               <Avatar
-                                src={student.photo}
-                                alt={`${student.firstName} ${student.lastName}`}
+                                src={student.photo_c}
+                                alt={`${student.first_name_c} ${student.last_name_c}`}
                                 size="sm"
                               />
                               <div>
                                 <p className="font-medium text-gray-900">
-                                  {student.firstName} {student.lastName}
+                                  {student.first_name_c} {student.last_name_c}
                                 </p>
                                 <p className="text-xs text-gray-600">
-                                  Grade {student.gradeLevel} • {student.class}
+                                  Grade {student.grade_level_c} • {student.class_c}
                                 </p>
                               </div>
                             </div>
                           </td>
                           <td className="p-4 text-center">
                             {todayRecord ? (
-                              <Badge variant={todayRecord.status.toLowerCase()}>
-                                {todayRecord.status}
+                              <Badge variant={todayRecord.status_c?.toLowerCase()}>
+                                {todayRecord.status_c}
                               </Badge>
                             ) : (
                               <Badge variant="default">
@@ -311,7 +314,7 @@ const [attendance, setAttendance] = useState([]);
                             </div>
                           </td>
                           <td className="p-4 text-gray-600">
-                            {todayRecord?.notes || "-"}
+                            {todayRecord?.notes_c || "-"}
                           </td>
                           <td className="p-4 text-right">
                             <div className="flex items-center justify-end space-x-2">

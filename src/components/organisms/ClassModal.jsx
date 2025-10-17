@@ -17,14 +17,10 @@ const AddClassModal = ({ isOpen, onClose, onSave, classItem, isEditing }) => {
   useEffect(() => {
     if (isOpen) {
       if (classItem) {
-        setFormData({
-          name: classItem.name || "",
-          subject: classItem.subject || "",
-          gradeLevel: classItem.gradeLevel || "",
-          teacher: classItem.teacher || "",
-          schedule: classItem.schedule || "",
-          room: classItem.room || "",
-          capacity: classItem.capacity || ""
+setFormData({
+          name_c: classItem.name_c || classItem.name || "",
+          subject_c: classItem.subject_c || classItem.subject || "",
+          grade_level_c: classItem.grade_level_c || classItem.gradeLevel || ""
         });
       } else {
         setFormData({

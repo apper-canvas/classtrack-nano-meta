@@ -1,8 +1,11 @@
 import React from "react";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
+import { useAuth } from "@/layouts/Root";
 
 const Header = ({ onToggleSidebar }) => {
+  const { logout } = useAuth();
+
   return (
     <header className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div className="flex items-center justify-between px-4 py-3">
@@ -31,6 +34,9 @@ const Header = ({ onToggleSidebar }) => {
           </Button>
           <Button variant="ghost" size="sm" className="p-2">
             <ApperIcon name="Settings" className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" size="sm" className="p-2" onClick={logout}>
+            <ApperIcon name="LogOut" className="h-5 w-5" />
           </Button>
         </div>
       </div>

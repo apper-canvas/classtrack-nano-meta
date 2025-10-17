@@ -43,19 +43,20 @@ const Dashboard = () => {
     }
   };
 
-  const calculateStats = () => {
+const calculateStats = () => {
     const totalStudents = students.length;
-    const activeStudents = students.filter(s => s.status === "Active").length;
-    const atRiskStudents = students.filter(s => s.status === "At Risk").length;
+    const activeStudents = students.filter(s => s.status_c === "Active").length;
+    const atRiskStudents = students.filter(s => s.status_c === "At Risk").length;
     
     // Calculate average attendance rate
-    const attendanceByStudent = attendance.reduce((acc, record) => {
-      if (!acc[record.studentId]) {
-        acc[record.studentId] = { total: 0, present: 0 };
+const attendanceByStudent = attendance.reduce((acc, record) => {
+      const lookupId = record.student_id_c?.Id || record.student_id_c;
+      if (!acc[lookupId]) {
+        acc[lookupId] = { total: 0, present: 0 };
       }
-      acc[record.studentId].total++;
-      if (record.status === "Present") {
-        acc[record.studentId].present++;
+      acc[lookupId].total++;
+      if (record.status_c === "Present") {
+        acc[lookupId].present++;
       }
       return acc;
     }, {});
@@ -68,11 +69,12 @@ const Dashboard = () => {
       : 0;
 
     // Calculate average GPA
-    const gradesByStudent = grades.reduce((acc, grade) => {
-      if (!acc[grade.studentId]) {
-        acc[grade.studentId] = [];
+const gradesByStudent = grades.reduce((acc, grade) => {
+      const lookupId = grade.student_id_c?.Id || grade.student_id_c;
+      if (!acc[lookupId]) {
+        acc[lookupId] = [];
       }
-      acc[grade.studentId].push((grade.score / grade.maxScore) * 4);
+      acc[lookupId].push((grade.score_c / grade.max_score_c) * 4);
       return acc;
     }, {});
 
@@ -93,26 +95,28 @@ const Dashboard = () => {
   };
 
   const getRecentActivity = () => {
-    const recentGrades = grades
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
+const recentGrades = grades
+      .sort((a, b) => new Date(b.date_c) - new Date(a.date_c))
       .slice(0, 5)
       .map(grade => {
-        const student = students.find(s => s.Id === grade.studentId);
+        const lookupId = grade.student_id_c?.Id || grade.student_id_c;
+        const student = students.find(s => s.Id === lookupId);
         return {
           ...grade,
-          studentName: student ? `${student.firstName} ${student.lastName}` : "Unknown",
+          studentName: student ? `${student.first_name_c} ${student.last_name_c}` : "Unknown",
           type: "grade"
         };
       });
 
-    const recentAttendance = attendance
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
+const recentAttendance = attendance
+      .sort((a, b) => new Date(b.date_c) - new Date(a.date_c))
       .slice(0, 5)
       .map(record => {
-        const student = students.find(s => s.Id === record.studentId);
+        const lookupId = record.student_id_c?.Id || record.student_id_c;
+        const student = students.find(s => s.Id === lookupId);
         return {
           ...record,
-          studentName: student ? `${student.firstName} ${student.lastName}` : "Unknown",
+          studentName: student ? `${student.first_name_c} ${student.last_name_c}` : "Unknown",
           type: "attendance"
         };
       });
@@ -141,7 +145,7 @@ const Dashboard = () => {
 
   const stats = calculateStats();
   const recentActivity = getRecentActivity();
-  const atRiskStudents = students.filter(s => s.status === "At Risk").slice(0, 5);
+const atRiskStudents = students.filter(s => s.status_c === "At Risk").slice(0, 5);
 
   return (
     <div className="p-6 space-y-8">
@@ -209,13 +213,13 @@ const Dashboard = () => {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">
+<p className="text-sm font-medium text-gray-900">
                     {activity.studentName}
                   </p>
                   <p className="text-xs text-gray-600">
                     {activity.type === "grade" 
-                      ? `${activity.subject}: ${activity.assignment} - ${Math.round((activity.score / activity.maxScore) * 100)}%`
-                      : `Attendance: ${activity.status}`
+                      ? `${activity.subject_c}: ${activity.assignment_c} - ${Math.round((activity.score_c / activity.max_score_c) * 100)}%`
+                      : `Attendance: ${activity.status_c}`
                     }
                   </p>
                 </div>
@@ -245,19 +249,19 @@ const Dashboard = () => {
           </div>
           
           <div className="space-y-4">
-            {atRiskStudents.map((student) => (
+{atRiskStudents.map((student) => (
               <div key={student.Id} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
                 <Avatar
-                  src={student.photo}
-                  alt={`${student.firstName} ${student.lastName}`}
+                  src={student.photo_c}
+                  alt={`${student.first_name_c} ${student.last_name_c}`}
                   size="default"
                 />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-900">
-                    {student.firstName} {student.lastName}
+                    {student.first_name_c} {student.last_name_c}
                   </p>
                   <p className="text-xs text-gray-600">
-                    Grade {student.gradeLevel} • {student.class}
+                    Grade {student.grade_level_c} • {student.class_c}
                   </p>
                 </div>
                 <Button variant="ghost" size="sm">

@@ -80,24 +80,25 @@ const [grades, setGrades] = useState([]);
     }
   };
 
-  const getStudentName = (studentId) => {
-    const student = students.find(s => s.Id === studentId);
+const getStudentName = (studentId) => {
+    const lookupId = studentId?.Id || studentId;
+    const student = students.find(s => s.Id === lookupId);
     return student ? `${student.firstName} ${student.lastName}` : "Unknown Student";
   };
-
-  const getStudent = (studentId) => {
+const getStudent = (studentId) => {
+    const lookupId = studentId?.Id || studentId;
     return students.find(s => s.Id === studentId);
   };
 
   const subjects = [...new Set(grades.map(grade => grade.subject))];
 
   const filteredGrades = grades.filter(grade => {
-    // Search filter
+// Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      const studentName = getStudentName(grade.studentId).toLowerCase();
-      const assignment = grade.assignment.toLowerCase();
-      if (!studentName.includes(query) && !assignment.includes(query) && !grade.subject.toLowerCase().includes(query)) {
+      const studentName = getStudentName(grade.student_id_c).toLowerCase();
+      const assignment = grade.assignment_c?.toLowerCase() || '';
+      if (!studentName.includes(query) && !assignment.includes(query) && !grade.subject_c?.toLowerCase().includes(query)) {
         return false;
       }
     }
@@ -110,15 +111,15 @@ const [grades, setGrades] = useState([]);
     return true;
   });
 
-  const getGradeColor = (score, maxScore) => {
-    const percentage = (score / maxScore) * 100;
+const getGradeColor = (score_c, max_score_c) => {
+    const percentage = (score_c / max_score_c) * 100;
     if (percentage >= 90) return "text-success";
     if (percentage >= 70) return "text-warning";
     return "text-error";
   };
 
-  const getLetterGrade = (score, maxScore) => {
-    const percentage = (score / maxScore) * 100;
+const getLetterGrade = (score_c, max_score_c) => {
+    const percentage = (score_c / max_score_c) * 100;
     if (percentage >= 90) return "A";
     if (percentage >= 80) return "B";
     if (percentage >= 70) return "C";
@@ -231,11 +232,11 @@ const [grades, setGrades] = useState([]);
                 </tr>
               </thead>
               <tbody>
-                {filteredGrades.map((grade) => {
-                  const student = getStudent(grade.studentId);
-                  const percentage = Math.round((grade.score / grade.maxScore) * 100);
-                  const letterGrade = getLetterGrade(grade.score, grade.maxScore);
-                  const gradeColor = getGradeColor(grade.score, grade.maxScore);
+{filteredGrades.map((grade) => {
+                  const student = getStudent(grade.student_id_c);
+                  const percentage = Math.round((grade.score_c / grade.max_score_c) * 100);
+                  const letterGrade = getLetterGrade(grade.score_c, grade.max_score_c);
+                  const gradeColor = getGradeColor(grade.score_c, grade.max_score_c);
                   
                   return (
                     <tr key={grade.Id} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors">
@@ -243,18 +244,18 @@ const [grades, setGrades] = useState([]);
                         <div className="flex items-center space-x-3">
                           {student && (
                             <Avatar
-                              src={student.photo}
-                              alt={getStudentName(grade.studentId)}
+                              src={student.photo_c}
+                              alt={getStudentName(grade.student_id_c)}
                               size="sm"
                             />
                           )}
                           <div>
                             <p className="font-medium text-gray-900">
-                              {getStudentName(grade.studentId)}
+                              {getStudentName(grade.student_id_c)}
                             </p>
                             {student && (
                               <p className="text-xs text-gray-600">
-                                Grade {student.gradeLevel}
+                                Grade {student.grade_level_c}
                               </p>
                             )}
                           </div>
@@ -262,15 +263,15 @@ const [grades, setGrades] = useState([]);
                       </td>
                       <td className="p-4">
                         <Badge variant="info" className="text-xs">
-                          {grade.subject}
+                          {grade.subject_c}
                         </Badge>
                       </td>
                       <td className="p-4">
-                        <p className="font-medium text-gray-900">{grade.assignment}</p>
+                        <p className="font-medium text-gray-900">{grade.assignment_c}</p>
                       </td>
                       <td className="p-4 text-center">
                         <p className="font-medium text-gray-900">
-                          {grade.score}/{grade.maxScore}
+                          {grade.score_c}/{grade.max_score_c}
                         </p>
                         <p className="text-xs text-gray-600">
                           {percentage}%
@@ -283,11 +284,11 @@ const [grades, setGrades] = useState([]);
                       </td>
                       <td className="p-4">
                         <Badge variant="default" className="text-xs">
-                          {grade.category}
+                          {grade.category_c}
                         </Badge>
                       </td>
                       <td className="p-4 text-gray-600">
-                        {new Date(grade.date).toLocaleDateString()}
+                        {new Date(grade.date_c).toLocaleDateString()}
                       </td>
                       <td className="p-4 text-right">
                         <div className="flex items-center justify-end space-x-2">

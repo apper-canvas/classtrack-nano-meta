@@ -17,12 +17,13 @@ const AddGradeModal = ({ isOpen, onClose, onSave, grade, students, isEditing }) 
     if (isOpen) {
       if (grade) {
         setFormData({
-          studentId: grade.studentId || "",
-          subject: grade.subject || "",
-          assignment: grade.assignment || "",
-          score: grade.score || "",
-          maxScore: grade.maxScore || "",
-          date: grade.date ? new Date(grade.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+student_id_c: grade.student_id_c?.Id || grade.student_id_c || "",
+          subject_c: grade.subject_c || "",
+          assignment_c: grade.assignment_c || "",
+          score_c: grade.score_c || "",
+          max_score_c: grade.max_score_c || "",
+          category_c: grade.category_c || "",
+          date_c: grade.date_c ? new Date(grade.date_c).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
         });
       } else {
         setFormData({
@@ -94,8 +95,8 @@ const AddGradeModal = ({ isOpen, onClose, onSave, grade, students, isEditing }) 
               >
                 <option value="">Select student</option>
                 {students.map(student => (
-                  <option key={student.Id} value={student.Id}>
-                    {student.firstName} {student.lastName}
+<option key={student.Id} value={student.Id}>
+                    {student.first_name_c} {student.last_name_c}
                   </option>
                 ))}
               </select>

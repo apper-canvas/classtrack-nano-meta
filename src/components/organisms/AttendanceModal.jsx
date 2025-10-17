@@ -14,18 +14,18 @@ const MarkAttendanceModal = ({ isOpen, onClose, onSave, attendance, students, is
   useEffect(() => {
     if (isOpen) {
       if (attendance) {
-        setFormData({
-          studentId: attendance.studentId || "",
-          date: attendance.date ? new Date(attendance.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
-          status: attendance.status || "Present",
-          notes: attendance.notes || ""
+setFormData({
+          student_id_c: attendance.student_id_c?.Id || attendance.student_id_c || "",
+          date_c: attendance.date_c ? new Date(attendance.date_c).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+          status_c: attendance.status_c || "Present",
+          notes_c: attendance.notes_c || ""
         });
       } else {
         setFormData({
-          studentId: "",
-          date: new Date().toISOString().split('T')[0],
-          status: "Present",
-          notes: ""
+          student_id_c: "",
+          date_c: new Date().toISOString().split('T')[0],
+          status_c: "Present",
+          notes_c: ""
         });
       }
     }
@@ -85,9 +85,9 @@ const MarkAttendanceModal = ({ isOpen, onClose, onSave, attendance, students, is
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 <option value="">Select student</option>
-                {students.map(student => (
+{students.map(student => (
                   <option key={student.Id} value={student.Id}>
-                    {student.firstName} {student.lastName}
+                    {student.first_name_c} {student.last_name_c}
                   </option>
                 ))}
               </select>

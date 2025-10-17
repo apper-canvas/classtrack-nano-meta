@@ -12,86 +12,69 @@ import Attendance from "@/components/pages/Attendance";
 const StudentModal = ({ student, isOpen, onClose, onSave, onEdit, isEditing: isEditingProp, grades = [], attendance = [] }) => {
   const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(isEditingProp || false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    gradeLevel: '',
-    class: '',
-status: 'Active',
-    mathsMarks: '',
-    photo: '',
-    parentContact: {
-      name: '',
-      phone: '',
-      email: ''
-    }
+const [formData, setFormData] = useState({
+    first_name_c: '',
+    last_name_c: '',
+    email_c: '',
+    phone_c: '',
+    grade_level_c: '',
+    class_c: '',
+    status_c: 'Active',
+    maths_marks_c: '',
+    photo_c: '',
+    parent_contact_name_c: '',
+    parent_contact_phone_c: '',
+    parent_contact_email_c: ''
   });
   const [errors, setErrors] = useState({});
-  const [imagePreview, setImagePreview] = useState(student?.photo || '');
+const [imagePreview, setImagePreview] = useState(student?.photo_c || '');
   // Initialize form data when modal opens or student changes
 React.useEffect(() => {
     if (isOpen) {
       setIsEditing(isEditingProp || false);
       if (student) {
         setFormData({
-          firstName: student.firstName || '',
-          lastName: student.lastName || '',
-          email: student.email || '',
-          phone: student.phone || '',
-          gradeLevel: student.gradeLevel || '',
-          class: student.class || '',
-          status: student.status || 'Active',
-photo: student.photo || '',
-          mathsMarks: student.mathsMarks || '',
-          parentContact: {
-            name: student.parentContact?.name || '',
-            phone: student.parentContact?.phone || '',
-            email: student.parentContact?.email || ''
-          }
+          first_name_c: student.first_name_c || '',
+          last_name_c: student.last_name_c || '',
+          email_c: student.email_c || '',
+          phone_c: student.phone_c || '',
+          grade_level_c: student.grade_level_c || '',
+          class_c: student.class_c || '',
+          status_c: student.status_c || 'Active',
+          photo_c: student.photo_c || '',
+          maths_marks_c: student.maths_marks_c || '',
+          parent_contact_name_c: student.parent_contact_name_c || '',
+          parent_contact_phone_c: student.parent_contact_phone_c || '',
+          parent_contact_email_c: student.parent_contact_email_c || ''
         });
       } else {
         setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-gradeLevel: '',
-          mathsMarks: '',
-          class: '',
-          status: 'Active',
-          photo: '',
-          parentContact: {
-            name: '',
-            phone: '',
-            email: ''
-          }
+          first_name_c: '',
+          last_name_c: '',
+          email_c: '',
+          phone_c: '',
+          grade_level_c: '',
+          maths_marks_c: '',
+          class_c: '',
+          status_c: 'Active',
+          photo_c: '',
+          parent_contact_name_c: '',
+          parent_contact_phone_c: '',
+          parent_contact_email_c: ''
         });
       }
     }
   }, [isOpen, student, isEditingProp]);
 
-  const handleInputChange = (field, value) => {
-    if (field.includes('.')) {
-const [parent, child] = field.split('.');
-      setFormData(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value
-        }
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        [field]: value
-      }));
-    }
+const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const handleSave = () => {
-    if (!formData.firstName || !formData.lastName || !formData.email) {
+const handleSave = () => {
+    if (!formData.first_name_c || !formData.last_name_c || !formData.email_c) {
       return;
     }
     onSave(formData);
@@ -118,20 +101,20 @@ const [parent, child] = field.split('.');
     }
   };
 
-  const calculateGPA = () => {
+const calculateGPA = () => {
     if (!grades || grades.length === 0) return 'N/A';
     const totalPercentage = grades.reduce((sum, grade) => {
-      return sum + ((grade.score / grade.maxScore) * 100);
+      return sum + ((grade.score_c / grade.max_score_c) * 100);
     }, 0);
     const avgPercentage = totalPercentage / grades.length;
     const gpa = (avgPercentage / 100) * 4;
     return gpa.toFixed(2);
   };
 
-  const calculateAttendanceRate = () => {
+const calculateAttendanceRate = () => {
     if (!attendance || attendance.length === 0) return 'N/A';
     const presentCount = attendance.filter(record => 
-      record.status.toLowerCase() === 'present'
+      record.status_c?.toLowerCase() === 'present'
     ).length;
     const rate = (presentCount / attendance.length) * 100;
     return `${rate.toFixed(1)}%`;
@@ -153,19 +136,19 @@ const [parent, child] = field.split('.');
               {student && !isEditing && (
                 <>
                   <Avatar
-                    src={student.photo}
-                    alt={`${student.firstName} ${student.lastName}`}
+src={student.photo_c}
+                    alt={`${student.first_name_c} ${student.last_name_c}`}
                     size="xl"
                   />
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">
-                      {student.firstName} {student.lastName}
+                      {student.first_name_c} {student.last_name_c}
                     </h2>
                     <p className="text-gray-600">
-                      Grade {student.gradeLevel} • {student.class}
+                      Grade {student.grade_level_c} • {student.class_c}
                     </p>
-                    <Badge variant={getStatusVariant(student.status)} className="mt-2">
-                      {student.status}
+                    <Badge variant={getStatusVariant(student.status_c)} className="mt-2">
+                      {student.status_c}
                     </Badge>
                   </div>
                 </>
@@ -231,11 +214,11 @@ const [parent, child] = field.split('.');
                       <div className="space-y-3">
                         <div className="flex items-center">
                           <ApperIcon name="Mail" className="h-4 w-4 text-gray-400 mr-3" />
-                          <span className="text-gray-600">{student.email}</span>
+<span className="text-gray-600">{student.email_c}</span>
                         </div>
                         <div className="flex items-center">
                           <ApperIcon name="Phone" className="h-4 w-4 text-gray-400 mr-3" />
-                          <span className="text-gray-600">{student.phone}</span>
+                          <span className="text-gray-600">{student.phone_c}</span>
                         </div>
                       </div>
                     </div>
@@ -246,16 +229,16 @@ const [parent, child] = field.split('.');
                       </h3>
                       <div className="space-y-3">
                         <div className="flex items-center">
-                          <ApperIcon name="User" className="h-4 w-4 text-gray-400 mr-3" />
-                          <span className="text-gray-600">{student.parentContact.name}</span>
+<ApperIcon name="User" className="h-4 w-4 text-gray-400 mr-3" />
+                          <span className="text-gray-600">{student.parent_contact_name_c}</span>
                         </div>
                         <div className="flex items-center">
                           <ApperIcon name="Phone" className="h-4 w-4 text-gray-400 mr-3" />
-                          <span className="text-gray-600">{student.parentContact.phone}</span>
+                          <span className="text-gray-600">{student.parent_contact_phone_c}</span>
                         </div>
                         <div className="flex items-center">
                           <ApperIcon name="Mail" className="h-4 w-4 text-gray-400 mr-3" />
-                          <span className="text-gray-600">{student.parentContact.email}</span>
+                          <span className="text-gray-600">{student.parent_contact_email_c}</span>
                         </div>
                       </div>
                     </div>
@@ -290,8 +273,8 @@ const [parent, child] = field.split('.');
                       </label>
                       <input
                         type="text"
-                        value={formData.firstName}
-                        onChange={(e) => handleInputChange('firstName', e.target.value)}
+value={formData.first_name_c}
+                        onChange={(e) => handleInputChange('first_name_c', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="Enter first name"
                       />
@@ -302,8 +285,8 @@ const [parent, child] = field.split('.');
                       </label>
                       <input
                         type="text"
-                        value={formData.lastName}
-                        onChange={(e) => handleInputChange('lastName', e.target.value)}
+                        value={formData.last_name_c}
+                        onChange={(e) => handleInputChange('last_name_c', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="Enter last name"
                       />
@@ -317,8 +300,8 @@ const [parent, child] = field.split('.');
                       </label>
                       <input
                         type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        value={formData.email_c}
+                        onChange={(e) => handleInputChange('email_c', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="student@example.com"
                       />
@@ -329,8 +312,8 @@ const [parent, child] = field.split('.');
                       </label>
                       <input
                         type="tel"
-                        value={formData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        value={formData.phone_c}
+                        onChange={(e) => handleInputChange('phone_c', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="(555) 123-4567"
                       />
@@ -343,8 +326,8 @@ const [parent, child] = field.split('.');
                         Grade Level
                       </label>
                       <select
-                        value={formData.gradeLevel}
-                        onChange={(e) => handleInputChange('gradeLevel', e.target.value)}
+                        value={formData.grade_level_c}
+                        onChange={(e) => handleInputChange('grade_level_c', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="">Select grade</option>
@@ -359,8 +342,8 @@ const [parent, child] = field.split('.');
                       </label>
                       <input
                         type="text"
-                        value={formData.class}
-                        onChange={(e) => handleInputChange('class', e.target.value)}
+                        value={formData.class_c}
+                        onChange={(e) => handleInputChange('class_c', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                         placeholder="10-A"
                       />
@@ -370,8 +353,8 @@ const [parent, child] = field.split('.');
                         Status
                       </label>
                       <select
-                        value={formData.status}
-                        onChange={(e) => handleInputChange('status', e.target.value)}
+                        value={formData.status_c}
+                        onChange={(e) => handleInputChange('status_c', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="Active">Active</option>
@@ -379,7 +362,7 @@ const [parent, child] = field.split('.');
                         <option value="At Risk">At Risk</option>
                       </select>
                     </div>
-</div>
+                  </div>
 
                   <div>
                     <Label htmlFor="mathsMarks">Maths Marks</Label>
@@ -388,8 +371,8 @@ const [parent, child] = field.split('.');
                       type="number"
                       min="0"
                       max="100"
-                      value={formData.mathsMarks}
-                      onChange={(e) => handleInputChange('mathsMarks', e.target.value)}
+                      value={formData.maths_marks_c}
+                      onChange={(e) => handleInputChange('maths_marks_c', e.target.value)}
                       placeholder="Enter maths marks (0-100)"
                     />
                   </div>
@@ -404,8 +387,8 @@ const [parent, child] = field.split('.');
                         </label>
                         <input
                           type="text"
-                          value={formData.parentContact.name}
-                          onChange={(e) => handleInputChange('parentContact.name', e.target.value)}
+                          value={formData.parent_contact_name_c}
+                          onChange={(e) => handleInputChange('parent_contact_name_c', e.target.value)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                           placeholder="Parent full name"
                         />
@@ -416,8 +399,8 @@ const [parent, child] = field.split('.');
                         </label>
                         <input
                           type="tel"
-                          value={formData.parentContact.phone}
-                          onChange={(e) => handleInputChange('parentContact.phone', e.target.value)}
+                          value={formData.parent_contact_phone_c}
+                          onChange={(e) => handleInputChange('parent_contact_phone_c', e.target.value)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                           placeholder="(555) 987-6543"
                         />
@@ -428,12 +411,12 @@ const [parent, child] = field.split('.');
                         </label>
                         <input
                           type="email"
-                          value={formData.parentContact.email}
-                          onChange={(e) => handleInputChange('parentContact.email', e.target.value)}
+                          value={formData.parent_contact_email_c}
+                          onChange={(e) => handleInputChange('parent_contact_email_c', e.target.value)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                           placeholder="parent@example.com"
                         />
-</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -448,8 +431,8 @@ const [parent, child] = field.split('.');
               </Button>
               <Button 
                 onClick={handleSave} 
-                variant="gradient"
-                disabled={!formData.firstName || !formData.lastName || !formData.email}
+variant="gradient"
+                disabled={!formData.first_name_c || !formData.last_name_c || !formData.email_c}
               >
                 <ApperIcon name="Save" className="h-4 w-4 mr-2" />
                 {student ? 'Update Student' : 'Add Student'}
@@ -475,21 +458,21 @@ const [parent, child] = field.split('.');
                       </tr>
                     </thead>
                     <tbody>
-                      {grades.map((grade) => {
-                        const percentage = Math.round((grade.score / grade.maxScore) * 100);
+{grades.map((grade) => {
+                        const percentage = Math.round((grade.score_c / grade.max_score_c) * 100);
                         const letterGrade = percentage >= 90 ? "A" : percentage >= 80 ? "B" : percentage >= 70 ? "C" : percentage >= 60 ? "D" : "F";
                         const gradeColor = percentage >= 90 ? "text-success" : percentage >= 70 ? "text-warning" : "text-error";
                         
                         return (
                           <tr key={grade.Id} className="hover:bg-gray-50">
-                            <td className="p-3 border-b">{grade.subject}</td>
-                            <td className="p-3 border-b">{grade.assignment}</td>
-                            <td className="p-3 border-b text-center">{grade.score}/{grade.maxScore}</td>
+                            <td className="p-3 border-b">{grade.subject_c}</td>
+                            <td className="p-3 border-b">{grade.assignment_c}</td>
+                            <td className="p-3 border-b text-center">{grade.score_c}/{grade.max_score_c}</td>
                             <td className={`p-3 border-b text-center font-semibold ${gradeColor}`}>
                               {letterGrade} ({percentage}%)
                             </td>
                             <td className="p-3 border-b text-gray-600">
-                              {new Date(grade.date).toLocaleDateString()}
+                              {new Date(grade.date_c).toLocaleDateString()}
                             </td>
                           </tr>
                         );
@@ -510,21 +493,21 @@ const [parent, child] = field.split('.');
               </h3>
               {attendance.length > 0 ? (
                 <div className="space-y-2">
-                  {attendance.slice(-10).reverse().map((record) => (
+{attendance.slice(-10).reverse().map((record) => (
                     <div key={record.Id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <ApperIcon name="Calendar" className="h-4 w-4 text-gray-400" />
                         <span className="font-medium text-gray-900">
-                          {new Date(record.date).toLocaleDateString()}
+                          {new Date(record.date_c).toLocaleDateString()}
                         </span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <Badge variant={record.status.toLowerCase()}>
-                          {record.status}
+                        <Badge variant={record.status_c?.toLowerCase()}>
+                          {record.status_c}
                         </Badge>
-                        {record.notes && (
+                        {record.notes_c && (
                           <span className="text-sm text-gray-600">
-                            {record.notes}
+                            {record.notes_c}
                           </span>
                         )}
                       </div>
